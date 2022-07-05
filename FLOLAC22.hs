@@ -18,7 +18,8 @@ penultimate :: [a] -> a
 penultimate xs = last (init xs)
 
 -- 1. Find the antepenultimate (third-to-last) element in list xs
-antepenultimate xs = undefined
+antepenultimate :: [a] -> a
+antepenultimate xs = penultimate (init xs)
 
 -- 2. Left shift list xs by 1
 --    For example, "shiftLeft [1, 2, 3]" should return "[2, 3, 1]"
