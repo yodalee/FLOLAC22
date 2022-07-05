@@ -1,3 +1,5 @@
+module FLOLAC22 where
+
 -- This exercise covers the first 6 and the 8th chapters of "Learn You a Haskell for Great Good!"
 
 -- Chapter 1 - http://learnyouahaskell.com/introduction
@@ -12,6 +14,7 @@
 -- Some of the definitions are left "undefined", you should replace them with your answers.
 
 -- 0. Example: find the penultimate (second-to-last) element in list xs
+penultimate :: [a] -> a
 penultimate xs = last (init xs)
 
 -- 1. Find the antepenultimate (third-to-last) element in list xs
