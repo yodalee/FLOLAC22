@@ -23,11 +23,17 @@ antepenultimate xs = penultimate (init xs)
 
 -- 2. Left shift list xs by 1
 --    For example, "shiftLeft [1, 2, 3]" should return "[2, 3, 1]"
-shiftLeft xs = undefined
+shiftLeft :: [a] -> [a]
+shiftLeft [] = []
+shiftLeft (x:xs) = xs ++ [x]
 
 -- 3. Left shift list xs by n
 --    For example, "rotateLeft 2 [1, 2, 3]" should return "[3, 1, 2]"
-rotateLeft n xs = undefined
+rotateLeft :: Int -> [a] -> [a]
+rotateLeft n xs
+  | n < 0 = error "Negative shift value"
+  | n == 0 = xs
+  | n > 0 = rotateLeft (n-1) (shiftLeft xs)
 
 -- 4. Insert element x in list xs at index k
 --    For example, "insertElem 100 3 [0,0,0,0,0]" should return [0,0,0,100,0,0]

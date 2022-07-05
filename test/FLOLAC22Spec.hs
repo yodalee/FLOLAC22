@@ -33,10 +33,39 @@ antepenultimateSpec =
       it "throw an exception if list not long enough" $
         evaluate (antepenultimate [1,2]) `shouldThrow` errorCall "Prelude.last: empty list"
 
+shiftLeftSpec :: Spec
+shiftLeftSpec =
+  describe "shiftLeft" $ do
+    context "shiftLeft []" $
+      it "should return empty list" $
+        (shiftLeft [] :: [Int]) `shouldBe` []
+    context "shiftLeft [1]" $
+      it "should be [1]" $
+        (shiftLeft [1]) `shouldBe` [1]
+    context "shiftLeft [1,2,3]" $
+      it "should be [2,3,1]" $
+        shiftLeft [1,2,3] `shouldBe` [2,3,1]
+
+rotateLeftSpec :: Spec
+rotateLeftSpec =
+  describe "rotateLeft" $ do
+    context "rotateLeft -1 [1,2,3]" $
+      it "throw an exception if n < 0" $
+        evaluate (rotateLeft (-1) [1,2,3]) `shouldThrow` errorCall "Negative shift value"
+    context "rotateLeft 0 [1,2,3]" $
+      it "should be [1,2,3]" $
+        rotateLeft 0 [1,2,3] `shouldBe` [1,2,3]
+    context "rotateLeft 2 [1,2,3]" $
+      it "should be [3,1,2]" $
+        rotateLeft 2 [1,2,3] `shouldBe` [3,1,2]
+
+
 spec :: Spec
 spec = do
   describe "penultimate" penultimateSpec
   describe "antepenultimate" antepenultimateSpec
+  describe "shiftLeft" shiftLeftSpec
+  describe "rotateLeft" rotateLeftSpec
 
 main :: IO()
 main = hspec spec
