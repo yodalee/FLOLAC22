@@ -37,7 +37,10 @@ rotateLeft n xs
 
 -- 4. Insert element x in list xs at index k
 --    For example, "insertElem 100 3 [0,0,0,0,0]" should return [0,0,0,100,0,0]
-insertElem x k xs = undefined
+insertElem :: a -> Int -> [a] -> [a]
+insertElem x k xs
+  | k < 0 = error "Negative insert index"
+  | otherwise = (take k xs) ++ [x] ++ (drop k xs)
 
 -- Here we have a type for the 7 days of the week
 -- Try typeclass functions like "show" or "maxBound" on them

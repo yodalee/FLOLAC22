@@ -59,6 +59,24 @@ rotateLeftSpec =
       it "should be [3,1,2]" $
         rotateLeft 2 [1,2,3] `shouldBe` [3,1,2]
 
+insertElemSpec :: Spec
+insertElemSpec =
+  describe "insertElem" $ do
+    context "insertElem 100 -1 []" $
+      it "throw an exception if n < 0" $
+        evaluate (insertElem 100 (-1) [1,2,3]) `shouldThrow` errorCall "Negative insert index"
+    context "insertElem 100 0 []" $
+      it "should be [100]" $
+        insertElem 100 0 [] `shouldBe` [100]
+    context "insertElem 100 3 [0,1,2,3,4]" $
+      it "should be [0,1,2,100,3,4]" $
+        insertElem 100 3 [0,1,2,3,4] `shouldBe` [0,1,2,100,3,4]
+    context "insertElem 100 3 [0,1,2,3,4]" $
+      it "should be [0,1,2,100,3,4]" $
+        insertElem 100 3 [0,1,2,3,4] `shouldBe` [0,1,2,100,3,4]
+    context "insertElem 100 10 [0,1,2,3,4]" $
+      it "should be [0,1,2,3,4,100]" $
+        insertElem 100 10 [0,1,2,3,4] `shouldBe` [0,1,2,3,4,100]
 
 spec :: Spec
 spec = do
@@ -66,6 +84,7 @@ spec = do
   describe "antepenultimate" antepenultimateSpec
   describe "shiftLeft" shiftLeftSpec
   describe "rotateLeft" rotateLeftSpec
+  describe "insertElem" insertElemSpec
 
 main :: IO()
 main = hspec spec
