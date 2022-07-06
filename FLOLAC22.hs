@@ -1,5 +1,7 @@
 module FLOLAC22 where
 
+import Data.List
+
 -- This exercise covers the first 6 and the 8th chapters of "Learn You a Haskell for Great Good!"
 
 -- Chapter 1 - http://learnyouahaskell.com/introduction
@@ -45,16 +47,18 @@ insertElem x k xs
 -- Here we have a type for the 7 days of the week
 -- Try typeclass functions like "show" or "maxBound" on them
 data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun
-         deriving (Eq, Ord, Show, Bounded, Enum)   
+         deriving (Eq, Ord, Show, Bounded, Enum)
 
 -- 5. Note that if you try "succ Sun", you should get an error, because "succ" is not defined on "Sun"
 --    Define "next", which is like "succ", but returns "Mon" on "next Sun"
 next :: Day -> Day
-next day = undefined
+next day
+  | day == Sun = Mon
+  | otherwise = succ day
 
 -- 6. Return "True" on weekend
 isWeekend :: Day -> Bool
-isWeekend = undefined
+isWeekend day = day >= Sat
 
 data Task = Work | Shop | Play deriving (Eq, Show)
 
@@ -63,21 +67,27 @@ schedule :: [(Task, Day)]
 schedule = [(Shop, Fri), (Work, Tue), (Play, Mon), (Play, Fri)]
 
 -- 7. However, the schedule is a mess
---    Sort the schedule by Day, and return only a list of Tasks. 
+--    Sort the schedule by Day, and return only a list of Tasks.
 --    If there are many Tasks in a Day, you should keep its original ordering
 --    For example, "sortTask schedule" should return "[(Play, Mon), (Work, Tue), (Shop, Fri), (Play, Fri)]"
 sortTask :: [(Task, Day)] -> [(Task, Day)]
-sortTask = undefined
+sortTask = sortBy (\ta tb -> (snd ta) `compare` (snd tb))
 
 -- 8. This function converts days to names, like "show", but a bit fancier
 --    For example, "nameOfDay Mon" should return "Monday"
 nameOfDay :: Day -> String
-nameOfDay x = undefined
+nameOfDay Mon = "Monday"
+nameOfDay Tue = "Tuesday"
+nameOfDay Wed = "Wednesday"
+nameOfDay Thu = "Thursday"
+nameOfDay Fri = "Friday"
+nameOfDay Sat = "Saturday"
+nameOfDay Sun = "Sunday"
 
 -- 9. You shouldn't be working on the weekends
 --     Return "False" if the Task is "Work" and the Day is "Sat" or "Sun"
 labourCheck :: Task -> Day -> Bool
-labourCheck task day = undefined
+labourCheck task day = not $ task == Work && isWeekend day
 
 -- 10. Raise x to the power y using recursion
 --     For example, "power 3 4" should return "81"
