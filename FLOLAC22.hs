@@ -140,11 +140,16 @@ data Tree a = Leaf a | Node (Tree a) (Tree a)
 -- 16. What is the map function as well as the Functor instance for this tree?
 --     (You may want to lookup the Functor typeclass.)
 instance Functor Tree where
-  fmap = undefined
+  fmap f (Leaf a) = Leaf (f a)
+  fmap f (Node t1 t2) = Node (fmap f t1) (fmap f t2)
 
 -- We say a tree is flattenable if it can be turned into a list
 -- which contains all elements originally in the tree.
 data List a = Nil | Cons a (List a)
+
+instance Show a => Show (List a) where
+  show Nil = "Nil"
+  show (Cons x xs) = show x ++ "-" ++ show xs
 
 -- We can define a typeclass to express that.
 class Flattenable t where
@@ -152,7 +157,12 @@ class Flattenable t where
 
 -- 17. Show that our Tree is flattenable:
 instance Flattenable Tree where
-  flatten = undefined
+  flatten (Leaf a) = Cons a Nil
+  flatten (Node ta tb) = concat (flatten ta) (flatten tb)
+    where
+      concat :: List a -> List a -> List a
+      concat Nil ys = ys
+      concat (Cons x xs) ys = Cons x (concat xs ys)
 
 -- 18. Define a type of trees that have leaves and two kinds of nodes:
 --     one with two branches and another with three branches.

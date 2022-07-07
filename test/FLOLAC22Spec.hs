@@ -160,6 +160,19 @@ palindromeSpec =
       it "should be False" $
         palindrome [1,2,3] `shouldBe` False
 
+treelistSpec :: Spec
+treelistSpec =
+  describe "list" $ do
+    context "show Cons 1 $ Cons 2 Nil" $
+      it "should be 1-2-Nil" $
+        show ((Cons 1 (Cons 2 Nil)) :: List Int) `shouldBe` "1-2-Nil"
+    context "flatten Leaf 1" $
+      it "should be 1-Nil" $
+        show (flatten (Leaf 1 :: Tree Int)) `shouldBe` "1-Nil"
+    context "flatten Node (Leaf 3) (Leaf 4)" $
+      it "should be 3-4-Nil" $
+        show (flatten (Node (Leaf 3) (Leaf 4) :: Tree Int)) `shouldBe` "3-4-Nil"
+
 spec :: Spec
 spec = do
   describe "penultimate" penultimateSpec
@@ -174,6 +187,7 @@ spec = do
   describe "fib" fibSpec
   describe "palindrome" palindromeSpec
   describe "mapFirst" mapFirstSpec
+  describe "treelist" treelistSpec
 
 main :: IO()
 main = hspec spec
