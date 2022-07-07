@@ -172,6 +172,9 @@ treelistSpec =
     context "flatten Node (Leaf 3) (Leaf 4)" $
       it "should be 3-4-Nil" $
         show (flatten (Node (Leaf 3) (Leaf 4) :: Tree Int)) `shouldBe` "3-4-Nil"
+    context "flatten Node3 (Leaves 1) (Leaves 2) (Leaves 3)" $
+      it "shouldBe 1-2-3-Nil" $
+        show (flatten (Node3 (Leaves 1) (Leaves 2) (Leaves 3))) `shouldBe` "1-2-3-Nil"
 
 spec :: Spec
 spec = do

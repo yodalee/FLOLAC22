@@ -151,6 +151,10 @@ instance Show a => Show (List a) where
   show Nil = "Nil"
   show (Cons x xs) = show x ++ "-" ++ show xs
 
+concatList :: List a -> List a -> List a
+concatList Nil ys = ys
+concatList (Cons x xs) ys = Cons x (concatList xs ys)
+
 -- We can define a typeclass to express that.
 class Flattenable t where
   flatten :: t a -> List a
@@ -158,20 +162,21 @@ class Flattenable t where
 -- 17. Show that our Tree is flattenable:
 instance Flattenable Tree where
   flatten (Leaf a) = Cons a Nil
-  flatten (Node ta tb) = concat (flatten ta) (flatten tb)
-    where
-      concat :: List a -> List a -> List a
-      concat Nil ys = ys
-      concat (Cons x xs) ys = Cons x (concat xs ys)
+  flatten (Node ta tb) = concatList (flatten ta) (flatten tb)
 
 -- 18. Define a type of trees that have leaves and two kinds of nodes:
 --     one with two branches and another with three branches.
 --     Your tree should have three constructors.
 --     You can choose where to store data (either on leaves, nodes, or both).
 --
---   data TwoThreeTree = ...
+data TwoThreeTree a =
+  Leaves a
+  | Node2 (TwoThreeTree a) (TwoThreeTree a)
+  | Node3 (TwoThreeTree a) (TwoThreeTree a) (TwoThreeTree a)
 
 -- 19. Show that the datatype you just defined is flattenable:
 --
---   instance Flattenable TwoThreeTree where
---     flatten = ...
+instance Flattenable TwoThreeTree where
+  flatten (Leaves a) = Cons a Nil
+  flatten (Node2 ta tb) = concatList (flatten ta) (flatten tb)
+  flatten (Node3 ta tb tc) = concatList (flatten ta) (concatList (flatten tb) (flatten tc))
