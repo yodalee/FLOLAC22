@@ -92,31 +92,45 @@ labourCheck task day = not $ task == Work && isWeekend day
 -- 10. Raise x to the power y using recursion
 --     For example, "power 3 4" should return "81"
 power :: Int -> Int -> Int
-power x y = undefined
+power x y
+  | y < 0 = error "negative power"
+  | y == 0 = 1
+  | y > 0 = x * power x (y-1)
 
 -- 11. Convert a list of booleans (big-endian) to a interger using recursion
 --     For example, "convertBinaryDigit [True, False, False]" should return 4
 convertBinaryDigit :: [Bool] -> Int
-convertBinaryDigit bits = undefined
+convertBinaryDigit bits = convert bits 0
+  where
+    convert :: [Bool] -> Int -> Int
+    convert [] val = val
+    convert (x:xs) val
+      | x = convert xs (val * 2 + 1)
+      | otherwise = convert xs (val * 2)
 
 -- 12. Create a fibbonaci sequence of length N in reverse order
 --     For example, "fib 5" should return "[3, 2, 1, 1, 0]"
 fib :: Int -> [Int]
-fib n = undefined
+fib 0 = []
+fib 1 = [0]
+fib 2 = [1,0]
+fib n = let l = fib (n-1)
+  in (head l + head (tail l)) : l
 
 -- 13. Determine whether a given list is a palindrome
 --     For example, "palindrome []" or "palindrome [1, 3, 1]" should return "True"
 palindrome :: Eq a => [a] -> Bool
-palindrome xs = undefined
+palindrome xs = let revxs = reverse xs
+  in xs == revxs
 
 -- 14. Map the first component of a pair with the given function
 --     For example, "mapFirst (+3) (4, True)" should return "(7, True)"
 mapFirst :: (a -> b) -> (a, c) -> (b, c)
-mapFirst f pair = undefined
+mapFirst f pair = (f (fst pair), snd pair)
 
 -- 15. Devise a function that has the following type
 someFunction :: (a -> b -> c) -> (a -> b) -> a -> c
-someFunction = undefined
+someFunction f1 f2 a = (f1 a) (f2 a)
 
 -- Here is an algebraic datatype representing trees.
 -- Be careful, these trees are somehow different from those defined in the book!

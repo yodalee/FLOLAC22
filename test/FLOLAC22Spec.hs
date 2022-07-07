@@ -116,6 +116,50 @@ taskSpec =
       it "should be True" $
         labourCheck Work Fri `shouldBe` True
 
+powerSpec :: Spec
+powerSpec =
+  describe "power" $ do
+    context "power 3 4" $
+      it "should be 81" $
+        power 3 4 `shouldBe` 81
+    context "power 3 -1" $
+      it "throw an exception negative power" $
+        evaluate (power 3 (-1)) `shouldThrow` errorCall "negative power"
+
+convertBinaryDigitSpec :: Spec
+convertBinaryDigitSpec =
+  describe "convertBinaryDigit" $ do
+    context "convertBinaryDigit [True, False, False]" $
+      it "should be 4" $
+        convertBinaryDigit [True, False, False]  `shouldBe` 4
+
+fibSpec :: Spec
+fibSpec =
+  describe "fib" $ do
+    context "fib 5" $
+      it "should be [3,2,1,1,0]" $
+        fib 5 `shouldBe` [3,2,1,1,0]
+
+mapFirstSpec :: Spec
+mapFirstSpec =
+  describe "mapFirst" $ do
+    context "mapFirst (+3) (4, True)" $
+      it "should be (7, True)" $
+        mapFirst (+3) (4, True) `shouldBe` (7, True)
+
+palindromeSpec :: Spec
+palindromeSpec =
+  describe "palindrome" $ do
+    context "palindrome []" $
+      it "should be True" $
+        palindrome ([] :: [Int]) `shouldBe` True
+    context "palindrome [1,3,1]" $
+      it "should be True" $
+        palindrome [1,3,1] `shouldBe` True
+    context "palindrome [1,2,3]" $
+      it "should be False" $
+        palindrome [1,2,3] `shouldBe` False
+
 spec :: Spec
 spec = do
   describe "penultimate" penultimateSpec
@@ -125,6 +169,11 @@ spec = do
   describe "insertElem" insertElemSpec
   describe "dataDay" dataDaySpec
   describe "task" taskSpec
+  describe "power" powerSpec
+  describe "converBinaryDigit" convertBinaryDigitSpec
+  describe "fib" fibSpec
+  describe "palindrome" palindromeSpec
+  describe "mapFirst" mapFirstSpec
 
 main :: IO()
 main = hspec spec
